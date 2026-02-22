@@ -77,14 +77,23 @@ Las credenciales fueron gestionadas mediante Doppler y sincronizadas con GitHub.
 
 ## Evidencias
 
-Se incluyen capturas de:
+### Integración Doppler con GitHub
+![Doppler Sync](screenshots/doppler-sync.png)
 
-- Integración de Doppler con GitHub (Config Syncs)
-- Variables configuradas en Doppler (valores ocultos)
-- Secrets configurados en GitHub
-- Ejecución exitosa del pipeline (estado verde)
-- Distribución de CloudFront
-- Aplicación funcionando en el navegador
+### Variables configuradas en Doppler
+![Doppler Secrets](screenshots/doppler-secrets.png)
+
+### Secrets configurados en GitHub
+![GitHub Secrets](screenshots/github-secrets.png)
+
+### Ejecución exitosa del pipeline
+![GitHub Actions](screenshots/github-actions.png)
+
+### Distribución en CloudFront
+![CloudFront](screenshots/cloudfront.png)
+
+### Aplicación funcionando en el navegador
+![Aplicación](screenshots/app-running.png)
 
 ---
 
