@@ -1,48 +1,93 @@
-Aplicación Web con Vite desplegada en CDN
+# Assignment 02 – Despliegue CI/CD con AWS
 
-Descripción
+## Descripción del Proyecto
 
-Esta aplicación web estática fue desarrollada utilizando Vite. 
-El objetivo es que la aplicación pueda ser accedida públicamente a través de un CDN en AWS.
+En esta actividad se desarrolló una aplicación web estática utilizando Vite.  
+Se implementó un pipeline de integración y despliegue continuo (CI/CD) para que cada cambio realizado en la rama `assignment-02` se publique automáticamente en AWS.
 
-Tecnologías usadas
+El objetivo es que la aplicación pueda ser accedida públicamente a través de un CDN utilizando Amazon CloudFront.
 
-Vite
-JavaScript
-HTML
-CSS
-AWS S3
-CloudFront
-Doppler
-GitHub Actions
+---
 
-Cómo ejecutar localmente
+## Aplicación en Producción
 
-1. Clonar el repositorio
-git clone https://github.com/Catherine707/Tarea-02.git
+URL pública del CDN (CloudFront):
 
-2. Entrar a la carpeta
-cd Tarea-02
+https://dg54ds19j78xe.cloudfront.net
 
-3. Instalar dependencias
-npm install
+---
 
-4. Ejecutar servidor de desarrollo
-npm run dev
+## Arquitectura Implementada
 
-5. Generar build
-npm run build
+El flujo de trabajo es el siguiente:
 
-Esto genera la carpeta dist/ que será utilizada para el despliegue en AWS.
+1. Se realiza un `git push` a la rama `assignment-02`.
+2. GitHub Actions ejecuta automáticamente el pipeline.
+3. Se instalan las dependencias del proyecto.
+4. Se ejecuta el build del proyecto (`npm run build`).
+5. Se sube el contenido de la carpeta `dist/` al bucket de Amazon S3.
+6. Se invalida la caché de CloudFront.
+7. Los cambios se reflejan inmediatamente en la URL pública del CDN.
 
-Estructura del proyecto
+---
 
-src/
-public/
-dist/
-package.json
-vite.config.js
+## Configuración del Proyecto
 
-Autor
+- Framework utilizado: Vite
+- Carpeta generada en producción: `dist/`
+- Rama de trabajo: `assignment-02`
+- Pipeline configurado en: `.github/workflows/deploy.yml`
+
+---
+
+## Pipeline de GitHub Actions
+
+El workflow ejecuta los siguientes pasos:
+
+- Checkout del repositorio
+- Instalación de dependencias
+- Build del proyecto
+- Configuración de credenciales AWS
+- Sincronización de archivos con S3
+- Invalidación de caché en CloudFront
+
+---
+
+## Servicios de AWS Utilizados
+
+- Amazon S3 (almacenamiento y hosting de archivos estáticos)
+- Amazon CloudFront (CDN)
+- IAM User con acceso programático para despliegue automático
+
+---
+
+## Configuración de Secretos
+
+Se utilizaron secretos configurados en GitHub:
+
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- AWS_REGION
+- S3_BUCKET_NAME
+- CLOUDFRONT_DISTRIBUTION_ID
+
+Las credenciales fueron gestionadas mediante Doppler y sincronizadas con GitHub.
+
+---
+
+## Evidencias
+
+Se incluyen capturas de:
+
+- Integración de Doppler con GitHub (Config Syncs)
+- Variables configuradas en Doppler (valores ocultos)
+- Secrets configurados en GitHub
+- Ejecución exitosa del pipeline (estado verde)
+- Distribución de CloudFront
+- Aplicación funcionando en el navegador
+
+---
+
+## Autora
 
 Catherine Cotí
