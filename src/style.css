@@ -1,0 +1,42 @@
+body {
+  background: linear-gradient(black, #2b0000);
+  color: #8b0000;
+  font-family: 'Orbitron', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.box {
+  text-align: center;
+  background: rgba(0,0,0,0.7);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px #8b0000;
+}
+
+h1 {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+#frase {
+  font-size: 22px;
+  margin: 20px 0;
+}
+
+button {
+  padding: 12px 25px;
+  font-size: 18px;
+  background: #8b0000;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #b30000;
+}
