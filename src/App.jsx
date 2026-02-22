@@ -1,36 +1,35 @@
-import { useState } from "react";
-import "./App.css";
+import { useState } from "react"
+import "./App.css"
+
+const frases = [
+  "Rock and roll - Cro",
+  "Cuantas veces - Cro",
+  "Si me sobrara el tiempo - Duki",
+  "Aquella noche - Barderos",
+  "Algo aparte - Khea",
+  "Hitboy - Duki",
+  "Alas - Duki & C.R.O"
+]
 
 function App() {
-  const [contacts, setContacts] = useState([]);
-  const [name, setName] = useState("");
+  const [frase, setFrase] = useState("Presiona el botón")
 
-  const addContact = () => {
-    if (name.trim() === "") return;
-    setContacts([...contacts, name]);
-    setName("");
-  };
+  const cambiarFrase = () => {
+    const random = Math.floor(Math.random() * frases.length)
+    setFrase(frases[random])
+  }
 
   return (
     <div className="container">
-      <h1>Agenda Web</h1>
+      <h1 className="titulo">MODO DIABLO</h1>
 
-      <div className="form">
-        <input
-          placeholder="Nombre del contacto"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <button onClick={addContact}>Agregar</button>
-      </div>
+      <p className="frase">{frase}</p>
 
-      <ul>
-        {contacts.map((c, i) => (
-          <li key={i}>{c}</li>
-        ))}
-      </ul>
+      <button className="boton" onClick={cambiarFrase}>
+        CAMBIAR FRASE
+      </button>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

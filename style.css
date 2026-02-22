@@ -1,36 +1,38 @@
 body {
-  background: linear-gradient(135deg, #0d0d0d, #1a001f);
-  color: #e6e6e6;
-  font-family: 'Orbitron', sans-serif;
-  text-align: center;
-  height: 100vh;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    margin: 0;
+    height: 100vh;
+    background: url("fondo.jpg") center/cover no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.box {
+    background: rgba(0,0,0,0.75);
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 0 30px purple;
+    color: white;
 }
 
 h1 {
-  color: #ff0055;
-  text-shadow: 0 0 10px #ff0055;
-  font-size: 3em;
+    color: #b026ff;
+    margin-bottom: 10px;
 }
 
 button {
-  background: #1a001f;
-  color: white;
-  border: 2px solid #ff0055;
-  padding: 12px 25px;
-  border-radius: 12px;
-  margin-top: 20px;
-  cursor: pointer;
+    margin-top: 25px;
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(45deg, purple, deeppink);
+    color: white;
+    cursor: pointer;
 }
 
 button:hover {
-  background: #ff0055;
-}
-
-#frase {
-  margin-top: 30px;
-  color: #00fff7;
+    transform: scale(1.1);
 }

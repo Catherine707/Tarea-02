@@ -1,15 +1,13 @@
-const frases = [
-  "Modo diablo activado",
-  "La noche es nuestra",
-  "Luces neon y cero drama",
-  "Trap y pensamientos profundos",
-  "Solo vibra y deja el miedo"
+const canciones = [
+    "Rock and roll - C.R.O  ",
+    "Si me sobrara el tiempo - DUKI",
+    "Aquella noche - Barderos",
+    "Algo aparte - KHEA",
+    "Alas - DUKI & C.R.O",
+    "Hitboy - DUKI"
 ];
 
-const btn = document.getElementById("btn");
-const frase = document.getElementById("frase");
-
-btn.addEventListener("click", () => {
-  const random = Math.floor(Math.random() * frases.length);
-  frase.textContent = frases[random];
-});
+document.getElementById("btn").onclick = function() {
+    let r = Math.floor(Math.random() * canciones.length);
+    document.getElementById("frase").innerText = canciones[r];
+};
