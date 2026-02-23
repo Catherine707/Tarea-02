@@ -117,11 +117,11 @@ http://TU-URL-DE-BEANSTALK-AQUI
 
 ### Aplicación en funcionamiento
 
-![Aplicación en línea](app-online.png)
+![Aplicación en línea](evidencia/app-online.png)
 
 ### Vista general de AWS Elastic Beanstalk
 
-![Beanstalk Overview](beanstalk-overview.png)
+![Beanstalk Overview](evidencia/beanstalk-overview.png)
 
 ---
 
