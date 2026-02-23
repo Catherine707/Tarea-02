@@ -1,101 +1,130 @@
-# Assignment 02 – Despliegue CI/CD con AWS
+# Assignment 03 - Despliegue en AWS Elastic Beanstalk
 
 ## Descripción del Proyecto
 
-En esta actividad se desarrolló una aplicación web estática utilizando Vite.  
-Se implementó un pipeline de integración y despliegue continuo (CI/CD) para que cada cambio realizado en la rama `assignment-02` se publique automáticamente en AWS.
+En esta actividad se desarrolló una aplicación web sencilla con una interfaz gráfica estática y agradable, utilizando Vite como herramienta de configuración y build.
 
-El objetivo es que la aplicación pueda ser accedida públicamente a través de un CDN utilizando Amazon CloudFront.
+El objetivo principal fue desplegar la aplicación utilizando el servicio AWS Elastic Beanstalk, automatizando el proceso mediante Docker y GitHub Actions.
 
----
+La rama utilizada para esta entrega es:
 
-## Aplicación en Producción
-
-URL pública del CDN (CloudFront):
-
-https://dg54ds19j78xe.cloudfront.net
+assignment-03
 
 ---
 
-## Arquitectura Implementada
+## Tecnologías Utilizadas
 
-El flujo de trabajo es el siguiente:
-
-1. Se realiza un `git push` a la rama `assignment-02`.
-2. GitHub Actions ejecuta automáticamente el pipeline.
-3. Se instalan las dependencias del proyecto.
-4. Se ejecuta el build del proyecto (`npm run build`).
-5. Se sube el contenido de la carpeta `dist/` al bucket de Amazon S3.
-6. Se invalida la caché de CloudFront.
-7. Los cambios se reflejan inmediatamente en la URL pública del CDN.
+- Vite
+- JavaScript
+- Docker
+- AWS Elastic Beanstalk
+- GitHub Actions
+- Husky
+- Doppler
 
 ---
 
-## Configuración del Proyecto
+## Configuración del Proyecto con Vite
 
-- Framework utilizado: Vite
-- Carpeta generada en producción: `dist/`
-- Rama de trabajo: `assignment-02`
-- Pipeline configurado en: `.github/workflows/deploy.yml`
+El proyecto fue configurado utilizando Vite para facilitar el desarrollo y la generación del build de producción.
 
----
+Para ejecutar el proyecto localmente:
 
-## Pipeline de GitHub Actions
+npm install
+npm run dev
 
-El workflow ejecuta los siguientes pasos:
+Para generar el build de producción:
 
-- Checkout del repositorio
-- Instalación de dependencias
-- Build del proyecto
-- Configuración de credenciales AWS
-- Sincronización de archivos con S3
-- Invalidación de caché en CloudFront
+npm run build
 
 ---
 
-## Servicios de AWS Utilizados
+## Configuración de Secretos con Doppler
 
-- Amazon S3 (almacenamiento y hosting de archivos estáticos)
-- Amazon CloudFront (CDN)
-- IAM User con acceso programático para despliegue automático
+Se creó un proyecto específico en Doppler para esta actividad.
 
----
+Las credenciales necesarias para el despliegue en AWS (como AWS_ACCESS_KEY_ID y AWS_SECRET_ACCESS_KEY) fueron almacenadas en Doppler.
 
-## Configuración de Secretos
+Doppler fue conectado con GitHub para que las credenciales se inyecten automáticamente en el pipeline durante la ejecución del workflow.
 
-Se utilizaron secretos configurados en GitHub:
+Esto permite:
 
-- AWS_ACCESS_KEY_ID
-- AWS_SECRET_ACCESS_KEY
-- AWS_REGION
-- S3_BUCKET_NAME
-- CLOUDFRONT_DISTRIBUTION_ID
-
-Las credenciales fueron gestionadas mediante Doppler y sincronizadas con GitHub.
+- No exponer credenciales en el repositorio.
+- Mantener seguridad en el despliegue.
+- Automatizar la actualización de secretos.
 
 ---
 
-## Evidencias
+## Dockerización de la Aplicación
 
-### Integración Doppler con GitHub
-![Doppler Sync](screenshots/doppler-sync.png)
+Se creó un archivo Dockerfile que permite construir la imagen de la aplicación.
 
-### Variables configuradas en Doppler
-![Doppler Secrets](screenshots/doppler-secrets.png)
+El contenedor:
 
-### Secrets configurados en GitHub
-![GitHub Secrets](screenshots/github-secrets.png)
+1. Instala dependencias.
+2. Ejecuta el build.
+3. Expone el puerto necesario para AWS.
 
-### Ejecución exitosa del pipeline
-![GitHub Actions](screenshots/github-actions.png)
+Para construir la imagen manualmente:
 
-### Distribución en CloudFront
-![CloudFront](screenshots/cloudfront.png)
+docker build -t assignment-03-app .
 
-### Aplicación funcionando en el navegador
-![Aplicación](screenshots/app-running.png)
+Para ejecutar el contenedor:
+
+docker run -p 80:80 assignment-03-app
 
 ---
+
+## Implementación de Husky
+
+Husky fue configurado para ejecutar validaciones antes de cada commit.
+
+Se configuró un hook pre-commit que permite:
+
+- Verificar estilos de código.
+- Evitar commits con errores.
+- Mantener consistencia en el repositorio.
+
+Esto asegura que el código subido al repositorio cumpla con las reglas definidas antes de ser integrado.
+
+---
+
+## Pipeline de GitHub
+
+Dentro de la carpeta .github/workflows se creó un pipeline que realiza las siguientes acciones automáticamente:
+
+1. Construcción de la imagen Docker.
+2. Despliegue de la aplicación en AWS Elastic Beanstalk.
+
+Cada vez que se hace push a la rama assignment-03, el pipeline:
+
+- Instala dependencias.
+- Genera el build.
+- Construye la imagen.
+- Realiza el despliegue automático en AWS.
+
+---
+
+## URL de AWS Elastic Beanstalk
+
+La aplicación desplegada puede visualizarse en:
+
+http://TU-URL-DE-BEANSTALK-AQUI
+
+---
+
+## Capturas de Pantalla
+
+### Aplicación en funcionamiento
+
+![Aplicación en línea](app-online.png)
+
+### Vista general de AWS Elastic Beanstalk
+
+![Beanstalk Overview](beanstalk-overview.png)
+
+---
+
 
 ## Autora
 
