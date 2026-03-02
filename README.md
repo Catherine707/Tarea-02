@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Assignment 02 – Despliegue CI/CD con AWS
 
 ## Descripción del Proyecto
