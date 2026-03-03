@@ -1,16 +1,53 @@
-# React + Vite
+# Assignment 04 — Aplicación Vite con Docker y GitHub Actions
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descripción
 
-Currently, two official plugins are available:
+Este proyecto consiste en una aplicación desarrollada con Vite que ha sido contenedorizada utilizando Docker.  
+Además, se configuró un pipeline de integración continua con GitHub Actions que construye y publica automáticamente la imagen en Docker Hub cada vez que se realizan cambios en la rama `assignment-04`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Aplicación en ejecución
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+La siguiente imagen muestra la aplicación ejecutándose correctamente en el navegador:
 
-## Expanding the ESLint configuration
+![Aplicación en ejecución](screenshots/app-running.png)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Pipeline de GitHub Actions
+
+El siguiente flujo de trabajo construye la imagen Docker y la publica automáticamente en Docker Hub:
+
+![GitHub Actions exitoso](screenshots/github-actions-success.png)
+
+---
+
+## Repositorio en Docker Hub
+
+Repositorio publicado en Docker Hub:
+
+https://hub.docker.com/r/cati707/assignment-04
+
+A continuación se muestran las etiquetas generadas automáticamente, incluyendo `latest` y el SHA del commit:
+
+![Etiquetas en Docker Hub](screenshots/dockerhub-tags.png)
+
+---
+
+## Tecnologías utilizadas
+
+- Vite
+- Docker
+- GitHub Actions
+- Docker Hub
+
+---
+
+## Imagen Docker
+
+Para descargar y ejecutar la imagen localmente:
+
+```bash
+docker pull cati707/assignment-04:latest
+docker run -p 8080:80 cati707/assignment-04:latest
