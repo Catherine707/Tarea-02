@@ -54,7 +54,7 @@ export default function App() {
         fontSize: "0.8rem",
         color: "#333"
       }}>
-        Tematica de: fuck luv duki
+        Inspired by Duki - Fuck Love
       </div>
 
     </div>
