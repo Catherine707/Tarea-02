@@ -127,37 +127,26 @@ Consulta de libros
     }
   }
 }
-## Evidencias
-
-### Evidencia 1. Servicio desplegado en Render
+Evidencias
+Evidencia 1. Servicio desplegado en Render
 
 En la siguiente evidencia se muestra el servicio web desplegado correctamente en Render. Esto confirma que la API fue publicada de forma exitosa y que el proyecto quedó accesible desde internet.
 
-![Servicio desplegado en Render](docs/images/cap1.png)
+Evidencia 2. Consulta del modelo Autor en GraphQL
 
-### Evidencia 2. Consulta del modelo Autor en GraphQL
+En esta evidencia se observa la ejecución de una consulta GraphQL sobre el modelo Autor, solicitando los campos id, nombre, nacionalidad, edad y activo, junto con la respuesta obtenida desde el endpoint público.
 
-En esta evidencia se observa la ejecución de una consulta GraphQL sobre el modelo **Autor**, solicitando los campos `id`, `nombre`, `nacionalidad`, `edad` y `activo`, junto con la respuesta obtenida desde el endpoint público.
+Evidencia 3. Consulta del modelo Libro en GraphQL
 
-![Consulta del modelo Autor en GraphQL](docs/images/cap2.png)
+En esta evidencia se presenta la ejecución de una consulta GraphQL sobre el modelo Libro, incluyendo además la relación con el modelo Autor para recuperar la información del autor asociado a cada libro.
 
-### Evidencia 3. Consulta del modelo Libro en GraphQL
+Evidencia 4. Código de los modelos en Django
 
-En esta evidencia se presenta la ejecución de una consulta GraphQL sobre el modelo **Libro**, incluyendo además la relación con el modelo **Autor** para recuperar la información del autor asociado a cada libro.
+En la siguiente imagen se muestra el archivo models.py, donde se definieron los modelos Autor y Libro, así como sus respectivos campos y la relación entre ambos.
 
-![Consulta del modelo Libro en GraphQL](docs/images/cap3.png)
-
-### Evidencia 4. Código de los modelos en Django
-
-En la siguiente imagen se muestra el archivo `models.py`, donde se definieron los modelos **Autor** y **Libro**, así como sus respectivos campos y la relación entre ambos.
-
-![Código de los modelos en Django](docs/images/cap4.png)
-
-### Evidencia 5. Código del esquema GraphQL
+Evidencia 5. Código del esquema GraphQL
 
 En esta evidencia se presenta el archivo del esquema GraphQL, donde se definieron los tipos, consultas y resolvers utilizados para acceder a la información de los modelos desde el endpoint público.
-
-![Código del esquema GraphQL](docs/images/cap5.png)
 
 Funcionamiento de la API
 
