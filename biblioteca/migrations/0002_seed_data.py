@@ -14,11 +14,11 @@ def seed_data(apps, schema_editor):
     )
 
     autor2, _ = Autor.objects.get_or_create(
-        nombre="Isabel Allende",
+        nombre="Osamu Dazai",
         defaults={
-            "nacionalidad": "Chilena",
-            "edad": 82,
-            "activo": True
+            "nacionalidad": "Japonesa",
+            "edad": 38,
+            "activo": False
         }
     )
 
@@ -33,10 +33,10 @@ def seed_data(apps, schema_editor):
     )
 
     Libro.objects.get_or_create(
-        titulo="La casa de los espiritus",
+        titulo="Indigno de ser humano",
         defaults={
             "genero": "Novela",
-            "anio_publicacion": 1982,
+            "anio_publicacion": 1948,
             "disponible": True,
             "autor": autor2
         }
@@ -47,9 +47,9 @@ def unseed_data(apps, schema_editor):
     Libro = apps.get_model('biblioteca', 'Libro')
 
     Libro.objects.filter(titulo="Cien anos de soledad").delete()
-    Libro.objects.filter(titulo="La casa de los espiritus").delete()
+    Libro.objects.filter(titulo="Indigno de ser humano").delete()
     Autor.objects.filter(nombre="Gabriel Garcia Marquez").delete()
-    Autor.objects.filter(nombre="Isabel Allende").delete()
+    Autor.objects.filter(nombre="Osamu Dazai").delete()
 
 class Migration(migrations.Migration):
 
