@@ -6,8 +6,6 @@ En esta actividad se desarrolló una API utilizando **GraphQL** con **Django** y
 
 La aplicación fue desplegada en **Render**, lo que permitió exponer un **endpoint público GraphQL** sin autenticación para realizar las consultas solicitadas en el enunciado.
 
----
-
 ## Tecnologías utilizadas
 
 - Python
@@ -18,70 +16,77 @@ La aplicación fue desplegada en **Render**, lo que permitió exponer un **endpo
 - Render
 - GitHub
 
----
-
 ## Repositorio
 
-```text
-https://github.com/Catherine707/Tarea-02/tree/assignment-07
-Endpoint público
-https://graphql-deployment.onrender.com/graphql
-Objetivo de la actividad
+Repositorio del proyecto:  
+`https://github.com/Catherine707/Tarea-02/tree/assignment-07`
 
-Comprender cómo se puede utilizar GraphQL para la generación de endpoints, permitiendo consultar únicamente los campos requeridos en cada petición.
+## Endpoint público
 
-Modelos implementados
+Endpoint GraphQL público:  
+`https://graphql-deployment.onrender.com/graphql`
+
+## Objetivo de la actividad
+
+Comprender cómo se puede utilizar **GraphQL** para la generación de endpoints, permitiendo consultar únicamente los campos requeridos en cada petición.
+
+## Modelos implementados
 
 Para el desarrollo de la API se implementaron dos modelos principales:
 
-Autor
-Libro
+- **Autor**
+- **Libro**
 
 Estos modelos fueron creados en la base de datos con varios campos para demostrar el uso correcto de GraphQL y la relación entre entidades.
 
-Esquemas de datos
-Modelo: Autor
+## Esquemas de datos
 
-Descripción:
+### Modelo: Autor
+
+**Descripción:**  
 Representa a los autores registrados en la base de datos y asociados a los libros disponibles en la API.
 
-Campos disponibles:
+**Campos disponibles:**
 
-id: identificador único del autor
-nombre: nombre completo del autor
-nacionalidad: nacionalidad del autor
-edad: edad del autor
-activo: indica si el autor se encuentra activo o no
+- `id`: identificador único del autor
+- `nombre`: nombre completo del autor
+- `nacionalidad`: nacionalidad del autor
+- `edad`: edad del autor
+- `activo`: indica si el autor se encuentra activo o no
 
-Ejemplos de registros:
+**Ejemplos de registros:**
 
-Gabriel Garcia Marquez
-Osamu Dazai
-Modelo: Libro
+- Gabriel Garcia Marquez
+- Osamu Dazai
 
-Descripción:
+### Modelo: Libro
+
+**Descripción:**  
 Representa los libros almacenados en la base de datos y relacionados con un autor.
 
-Campos disponibles:
+**Campos disponibles:**
 
-id: identificador único del libro
-titulo: nombre del libro
-genero: género literario del libro
-anioPublicacion: año de publicación
-disponible: indica si el libro está disponible
-autor: relación con el modelo Autor
+- `id`: identificador único del libro
+- `titulo`: nombre del libro
+- `genero`: género literario del libro
+- `anioPublicacion`: año de publicación
+- `disponible`: indica si el libro está disponible
+- `autor`: relación con el modelo Autor
 
-Ejemplos de registros:
+**Ejemplos de registros:**
 
-Cien anos de soledad
-Indigno de ser humano
-Relación entre modelos
+- Cien anos de soledad
+- Indigno de ser humano
 
-El modelo Libro tiene una relación con el modelo Autor, ya que cada libro pertenece a un autor.
-Gracias a GraphQL, es posible consultar en una misma petición tanto la información del libro como la del autor asociado.
+## Relación entre modelos
 
-Consultas de ejemplo
-Consulta de autores
+El modelo **Libro** tiene una relación con el modelo **Autor**, ya que cada libro pertenece a un autor. Gracias a GraphQL, es posible consultar en una misma petición tanto la información del libro como la del autor asociado.
+
+## Consultas de ejemplo
+
+### Consulta de autores
+
+```graphql
 {
   allAutores {
     id
@@ -119,8 +124,7 @@ Evidencias
 
 Funcionamiento de la API
 
-La API permite consultar la información de los modelos de forma flexible mediante GraphQL.
-Esto significa que el cliente puede solicitar únicamente los campos que necesita, lo cual representa una de las principales ventajas de este tipo de arquitectura.
+La API permite consultar la información de los modelos de forma flexible mediante GraphQL. Esto significa que el cliente puede solicitar únicamente los campos que necesita, lo cual representa una de las principales ventajas de este tipo de arquitectura.
 
 Se creó un endpoint público sin autenticación y se cargaron datos de prueba en la base de datos para verificar el correcto funcionamiento de las consultas.
 
@@ -134,6 +138,4 @@ la relación entre libros y autores
 el funcionamiento del endpoint público desplegado en Render
 Conclusión
 
-Se logró desarrollar e implementar una API GraphQL funcional utilizando Django y Graphene-Django.
-El sistema cuenta con dos modelos relacionados, un endpoint público accesible desde Render y documentación de los campos disponibles de cada modelo.
-Además, se verificó el correcto funcionamiento de la API mediante consultas ejecutadas exitosamente en GraphiQL.
+Se logró desarrollar e implementar una API GraphQL funcional utilizando Django y Graphene-Django. El sistema cuenta con dos modelos relacionados, un endpoint público accesible desde Render y documentación de los campos disponibles de cada modelo. Además, se verificó el correcto funcionamiento de la API mediante consultas ejecutadas exitosamente en GraphiQL.
