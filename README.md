@@ -1,103 +1,381 @@
-<<<<<<< HEAD
-# Assignment 02 – Despliegue CI/CD con AWS
+# Assignment 08 - Kubernetes con Minikube, Traefik y ArgoCD
 
-## Descripción del Proyecto
+## Descripción
 
-En esta actividad se desarrolló una aplicación web estática utilizando Vite.  
-Se implementó un pipeline de integración y despliegue continuo (CI/CD) para que cada cambio realizado en la rama `assignment-02` se publique automáticamente en AWS.
+En esta práctica se creó un clúster local de Kubernetes utilizando Minikube en Ubuntu.
 
-El objetivo es que la aplicación pueda ser accedida públicamente a través de un CDN utilizando Amazon CloudFront.
+También se instaló Traefik como Ingress Controller y ArgoCD como herramienta GitOps para administrar aplicaciones dentro del clúster.
 
----
-
-## Aplicación en Producción
-
-URL pública del CDN (CloudFront):
-
-https://dg54ds19j78xe.cloudfront.net
+Finalmente, se desplegó una aplicación demo utilizando Nginx y se configuraron dominios locales mediante `/etc/hosts`.
 
 ---
 
-## Arquitectura Implementada
+# Tecnologías utilizadas
 
-El flujo de trabajo es el siguiente:
-
-1. Se realiza un `git push` a la rama `assignment-02`.
-2. GitHub Actions ejecuta automáticamente el pipeline.
-3. Se instalan las dependencias del proyecto.
-4. Se ejecuta el build del proyecto (`npm run build`).
-5. Se sube el contenido de la carpeta `dist/` al bucket de Amazon S3.
-6. Se invalida la caché de CloudFront.
-7. Los cambios se reflejan inmediatamente en la URL pública del CDN.
-
----
-
-## Configuración del Proyecto
-
-- Framework utilizado: Vite
-- Carpeta generada en producción: `dist/`
-- Rama de trabajo: `assignment-02`
-- Pipeline configurado en: `.github/workflows/deploy.yml`
+- Ubuntu
+- Docker
+- Kubernetes
+- Minikube
+- kubectl
+- Helm
+- Traefik
+- ArgoCD
+- Nginx
 
 ---
 
-## Pipeline de GitHub Actions
+# Configuración DNS local
 
-El workflow ejecuta los siguientes pasos:
+Se agregaron los siguientes dominios al archivo:
 
-- Checkout del repositorio
-- Instalación de dependencias
-- Build del proyecto
-- Configuración de credenciales AWS
-- Sincronización de archivos con S3
-- Invalidación de caché en CloudFront
+```txt
+/etc/hosts
+```
 
----
-
-## Servicios de AWS Utilizados
-
-- Amazon S3 (almacenamiento y hosting de archivos estáticos)
-- Amazon CloudFront (CDN)
-- IAM User con acceso programático para despliegue automático
+```txt
+192.168.49.2 argo.cati.com
+192.168.49.2 app.cati.com
+```
 
 ---
 
-## Configuración de Secretos
+# URLs utilizadas
 
-Se utilizaron secretos configurados en GitHub:
+## ArgoCD
 
-- AWS_ACCESS_KEY_ID
-- AWS_SECRET_ACCESS_KEY
-- AWS_REGION
-- S3_BUCKET_NAME
-- CLOUDFRONT_DISTRIBUTION_ID
+```txt
+http://argo.cati.com:32737
+```
 
-Las credenciales fueron gestionadas mediante Doppler y sincronizadas con GitHub.
+## Aplicación demo
 
----
-
-## Evidencias
-
-### Integración Doppler con GitHub
-![Doppler Sync](screenshots/doppler-sync.png)
-
-### Variables configuradas en Doppler
-![Doppler Secrets](screenshots/doppler-secrets.png)
-
-### Secrets configurados en GitHub
-![GitHub Secrets](screenshots/github-secrets.png)
-
-### Ejecución exitosa del pipeline
-![GitHub Actions](screenshots/github-actions.png)
-
-### Distribución en CloudFront
-![CloudFront](screenshots/cloudfront.png)
-
-### Aplicación funcionando en el navegador
-![Aplicación](screenshots/app-running.png)
+```txt
+http://app.cati.com:32737
+```
 
 ---
 
-## Autora
+# Instalación de Minikube
 
-Catherine Cotí
+```bash
+minikube start --driver=docker
+```
+
+Verificación:
+
+```bash
+kubectl get nodes
+```
+
+---
+
+# Instalación de Traefik
+
+Crear namespace:
+
+```bash
+kubectl create namespace traefik
+```
+
+Agregar repositorio:
+
+```bash
+helm repo add traefik https://traefik.github.io/charts
+helm repo update
+```
+
+Instalar Traefik:
+
+```bash
+helm install traefik traefik/traefik --namespace traefik
+```
+
+Verificación:
+
+```bash
+kubectl get pods -n traefik
+```
+
+---
+
+# Instalación de ArgoCD
+
+Crear namespace:
+
+```bash
+kubectl create namespace argocd
+```
+
+Instalar ArgoCD:
+
+```bash
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+Verificación:
+
+```bash
+kubectl get pods -n argocd
+```
+
+---
+
+# Configuración insecure de ArgoCD
+
+```bash
+kubectl patch configmap argocd-cmd-params-cm -n argocd \
+--type merge \
+-p '{"data":{"server.insecure":"true"}}'
+```
+
+Reiniciar ArgoCD:
+
+```bash
+kubectl rollout restart deployment argocd-server -n argocd
+```
+
+---
+
+# Manifiestos YAML
+
+## ArgoCD IngressRoute
+
+Archivo:
+
+```txt
+argocd/argocd-ingress.yaml
+```
+
+```yaml
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+
+metadata:
+  name: argocd
+  namespace: argocd
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+    - match: Host(`argo.cati.com`)
+      kind: Rule
+
+      services:
+        - name: argocd-server
+          port: 80
+```
+
+---
+
+## Deployment aplicación demo
+
+Archivo:
+
+```txt
+app/deployment.yaml
+```
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: demo-app
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: demo-app
+
+  template:
+    metadata:
+      labels:
+        app: demo-app
+
+    spec:
+      containers:
+        - name: demo-app
+          image: nginx
+
+          ports:
+            - containerPort: 80
+```
+
+---
+
+## Service aplicación demo
+
+Archivo:
+
+```txt
+app/service.yaml
+```
+
+```yaml
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: demo-app-service
+
+spec:
+  selector:
+    app: demo-app
+
+  ports:
+    - port: 80
+      targetPort: 80
+```
+
+---
+
+## IngressRoute aplicación demo
+
+Archivo:
+
+```txt
+app/ingress.yaml
+```
+
+```yaml
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+
+metadata:
+  name: demo-app
+  namespace: default
+
+spec:
+  entryPoints:
+    - web
+
+  routes:
+    - match: Host(`app.cati.com`)
+      kind: Rule
+
+      services:
+        - name: demo-app-service
+          port: 80
+```
+
+---
+
+# Comandos utilizados
+
+## Verificar nodos
+
+```bash
+kubectl get nodes
+```
+
+## Verificar Traefik
+
+```bash
+kubectl get pods -n traefik
+```
+
+## Verificar ArgoCD
+
+```bash
+kubectl get pods -n argocd
+```
+
+## Verificar IngressRoutes
+
+```bash
+kubectl get ingressroutes.traefik.io -A
+```
+
+## Aplicar manifiestos
+
+```bash
+kubectl apply -f argocd/argocd-ingress.yaml
+kubectl apply -f app/
+```
+
+---
+
+# Evidencias
+
+## Cluster Minikube funcionando
+
+![Cluster](screenshots/cluster.png)
+
+---
+
+## Traefik funcionando
+
+![Traefik](screenshots/traefik.png)
+
+---
+
+## ArgoCD funcionando
+
+![ArgoCD](screenshots/argocd-pods.png)
+
+---
+
+## IngressRoutes configurados
+
+![IngressRoutes](screenshots/ingressroutes.png)
+
+---
+
+## DNS local configurado
+
+![DNS](screenshots/dns.png)
+
+---
+
+## ArgoCD desde navegador
+
+![ArgoCD Web](screenshots/argocd-web.png)
+
+---
+
+## Aplicación demo desde navegador
+
+![App Web](screenshots/app-web.png)
+
+---
+
+# Estructura del proyecto
+
+```txt
+.
+├── app
+│   ├── deployment.yaml
+│   ├── ingress.yaml
+│   └── service.yaml
+├── argocd
+│   └── argocd-ingress.yaml
+├── screenshots
+│   ├── app-web.png
+│   ├── argocd-pods.png
+│   ├── argocd-web.png
+│   ├── cluster.png
+│   ├── dns.png
+│   ├── ingressroutes.png
+│   └── traefik.png
+└── README.md
+```
+
+---
+
+# Rama utilizada
+
+```txt
+assignment-08
+```
+
+---
+
+# Repositorio
+
+```txt
+https://github.com/Catherine707/Tarea-02
+```
